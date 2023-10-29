@@ -25,6 +25,4 @@ export class MoneroPaymentRequestDecoder {
   static v1_decode(data: string) {
     return JSON.parse(inflate(Buffer.from(data, "base64"), {to: "string"}));
   }
-
-
 }

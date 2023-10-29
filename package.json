@@ -3,19 +3,28 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.cjs"
+    }
+  },
   "engines": {
     "node": "^21.1.0"
   },
   "scripts": {
     "bundle": "tsup",
-    "pretest": "npm run bundle",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test tests/**/*.mjs",
+    "docs": "typedoc src/index.ts"
   },
   "author": "MoshMage <moshmage@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@types/pako": "^2.0.2",
-    "tsup": "^7.2.0"
+    "tsup": "^7.2.0",
+    "typedoc": "^0.25.2",
+    "typescript": "^5.2.2"
   },
   "dependencies": {
     "pako": "^2.1.0"
