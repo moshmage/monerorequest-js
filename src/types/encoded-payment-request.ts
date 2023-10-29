@@ -1,0 +1,1 @@
+export type EncodedPaymentRequest = `monero-request:${number}:${string}`;
