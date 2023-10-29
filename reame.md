@@ -40,3 +40,6 @@ console.log(MoneroPaymentRequestDecoder.fromCode("monero-request:1:H8KLCAAAAAAAA
 
 ### Validations
 Validations can be checked using [`MoneroPaymentRequestValidator`](./src/protocol/check.ts) static methods.
+
+## More protocol information
+More information about the protocol can be found at https://github.com/lukeprofits/Monero_Payment_Request_Standard
