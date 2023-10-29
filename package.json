@@ -2,8 +2,13 @@
   "name": "monerorequest-js",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "engines": {
+    "node": "^21.1.0"
+  },
   "scripts": {
+    "bundle": "tsup",
+    "pretest": "npm run bundle",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "MoshMage <moshmage@gmail.com>",

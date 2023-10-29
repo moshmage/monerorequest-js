@@ -3,7 +3,6 @@ import {gzip} from "pako";
 import type {MoneroPaymentRequestPayload, MoneroPaymentRequestPayload_V1} from "../types/payment-request-payload";
 import type {EncodedPaymentRequest} from "../types/encoded-payment-request";
 
-
 export class MoneroPaymentRequestEncoder {
   static fromJson(data: MoneroPaymentRequestPayload_V1, version = 1): EncodedPaymentRequest {
     if (!version)
@@ -45,6 +44,5 @@ export class MoneroPaymentRequestEncoder {
 
     /** return a base64 string */
     return Buffer.from(String.fromCharCode.apply(null, new Uint8Array(compressed))).toString("base64");
-
   }
 }
