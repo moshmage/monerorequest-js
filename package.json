@@ -21,6 +21,7 @@
   "author": "MoshMage <moshmage@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^20.8.9",
     "@types/pako": "^2.0.2",
     "tsup": "^7.2.0",
     "typedoc": "^0.25.2",
