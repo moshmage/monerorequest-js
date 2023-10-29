@@ -1,5 +1,5 @@
 # Monero Payment Request Protocol
-Javascript edition.
+An easy way to create/decode [Monero Payment Requests](https://github.com/lukeprofits/Monero_Payment_Request_Standard) using JavaScript.
 
 ## Installation
 ```bash
@@ -8,7 +8,7 @@ $ npm install -S monerorequest-js
 
 ## Usage
 
-### Encoding requests
+### Encoding Monero Payment Requests
 
 ```ts
 import {MoneroPaymentRequestEncoder, MoneroPaymentRequestPayload} from "moneroreques-js";
@@ -29,7 +29,7 @@ console.log(MoneroPaymentRequestEncoder.fromJson(data, 1));
 // monero-request:1:H8KLCAAAAAAAAgMtT8OZTsODMBDDvBXDpMOnHjlLwpPCt8K0wrRIwqAiw5EWKH3CsRx7w5tYw7gIPmgTw4TCv8OjIMKedndmdnbDpxsRwqnCvXLCqERxMSkKNELCtCHDqgzCmCvDhilxw5pgb0TCoC/Cl8OLBMKuRMK2AiZUw4spacO5VGoFRsKPDXx6wrBuw5jDtcOGwoDCol3DkMK/w6zDrsO+AMOrwrTDhMKCw5QwwphswrrCm8Kdwq8tNcK8dVzCqyBgwqTCs8K4BcKDay4EV2dMOyoAwpVpNELDisOLOjDDusKEW8OSSVDDjsKiMsOAw78Dw6YsOBYnOsKfR8OzwojDhSxnNBoCWBACwozDhRcSw6rCkCzCq1x6w4jDjcOXa8OXw67DtcOpLD08FcK2eHbCpmdbw4gXHsOWw4Z+VEcew58uw7R7w53DtMKdw5V9wq83w6vDhcKsf1PDu0d2wr/CnFXDl1VVwq9WOcOtw5fDm8K0CcOdQ21lw5Ysw6HCkMOswobCk8KOGMKHGXHDoXPClERJOsKOwrJxMsObw4dpwpnDpWXCmh7DkcOPL8Oyw6lYwolqAQAA
 ```
 
-### Decoding requests
+### Decoding Monero Payment Requests
 
 ```ts
 import {MoneroPaymentRequestDecoder,} from "moneroreques-js";
