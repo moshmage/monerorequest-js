@@ -11,9 +11,10 @@
     }
   },
   "scripts": {
-    "bundle": "tsup"
+    "bundle": "tsup",
+    "pack": "npm pack"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "MoshMage <moshmage@gmail.com>",
+  "license": "MIT"
 }
