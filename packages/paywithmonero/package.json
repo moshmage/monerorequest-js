@@ -2,9 +2,16 @@
   "name": "@monerorequest-js/paywithmonero",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "module": "dist/index.js",
+  "main": "dist/index.cjs",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "bundle": "tsup"
   },
   "keywords": [],
   "author": "",

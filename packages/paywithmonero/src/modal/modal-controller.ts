@@ -1,7 +1,9 @@
 import {ModalView} from "./modal-view";
 import {Events} from "../types/events";
 import {setElementDisplay} from "../../utils/set-element-display";
-import {makeRandomId, MoneroPaymentRequestEncoder, MoneroPaymentRequestPayload_V1} from "../../../paymentrequest"
+
+/** Import the needed files from source instead of package because we want this component to be as self-sufficient as possible */
+import {makeRandomId, MoneroPaymentRequestEncoder, MoneroPaymentRequestPayload_V1} from "../../../paymentrequest/src/index.ts"
 
 type MoneroCart = {moneroCart: {name: string; price: number}[]};
 

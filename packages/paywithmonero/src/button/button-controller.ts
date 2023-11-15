@@ -13,8 +13,8 @@ class MoneroPaymentButton extends HTMLElement {
 
     this.attachShadow({ mode: 'open' });
 
-    this.itemName = this.getAttribute('itemName') || 'Sample Item';
-    this.itemPrice = parseFloat(this.getAttribute('itemPrice')) || 1;
+    this.itemName = this.getAttribute('item-name') || 'Sample Item';
+    this.itemPrice = parseFloat(this.getAttribute('item-price')) || 1;
 
     appendSharedStyles(this.shadowRoot);
 
