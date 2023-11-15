@@ -1,0 +1,1 @@
+export const ButtonView = `<button id="payButton" class="pay-button">pay with monero</button>`;
