@@ -43,6 +43,8 @@ export class MoneroPaymentRequestEncoder {
     const compressed = gzip(new TextEncoder().encode(_data), {level: 9, windowBits: 31});
 
     /** return a base64 string */
+    if (!!window)
+      return btoa(String.fromCharCode.apply(null, new Uint8Array(compressed)))
     return Buffer.from(String.fromCharCode.apply(null, new Uint8Array(compressed))).toString("base64");
   }
 }

@@ -1,7 +1,8 @@
-import {appendSharedStyles} from "../../utils/append-shared-styles";
-import {ButtonView} from "./button-view";
+import {appendSharedStyles, appendStyles} from "../../utils/append-shared-styles";
+import {ButtonView} from "./views/button-view.ts";
 import {Events} from "../types/events";
 import {makeEvent} from "../../utils/make-event";
+import {ButtonStyles} from "./styles/button-styles.ts";
 
 class MoneroPaymentButton extends HTMLElement {
   payButton: HTMLElement;
@@ -16,9 +17,9 @@ class MoneroPaymentButton extends HTMLElement {
     this.itemName = this.getAttribute('item-name') || 'Sample Item';
     this.itemPrice = parseFloat(this.getAttribute('item-price')) || 1;
 
-    appendSharedStyles(this.shadowRoot);
-
     this.shadowRoot.innerHTML = ButtonView;
+    appendSharedStyles(this.shadowRoot);
+    appendStyles(this.shadowRoot, ButtonStyles);
 
     // Get references to elements
     this.payButton = this.shadowRoot.getElementById('payButton');

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "target": "ES6"
   }
 }

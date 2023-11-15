@@ -2,7 +2,7 @@
 ## Usage
 Add the script via cdn:
 ```html
-<script src="cdn/to/@monerorequest-js/paywith-monero" />
+<script src="cdn/to/@monerorequest-js/paywithmonero" />
 ```
 Add the following element to each of the sellable items; This component will open a modal that will have two options, 
 "add to cart" and "go to checkout".
@@ -16,3 +16,6 @@ and provide a shipping address and a QR code generator with the encoded monero p
                               change-indicator-url="optional" 
                               custom-label="optional"/>
 ```
+
+## Protocol and more information
+Get more information the [Protocol](https://github.com/lukeprofits/Monero_Payment_Request_Standard) and on the [JS Port](../paymentrequest/README.md)

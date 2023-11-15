@@ -1,9 +1,12 @@
-import {ModalView} from "./modal-view";
+import {ModalView} from "./views/modal-view.ts";
 import {Events} from "../types/events";
 import {setElementDisplay} from "../../utils/set-element-display";
 
 /** Import the needed files from source instead of package because we want this component to be as self-sufficient as possible */
 import {makeRandomId, MoneroPaymentRequestEncoder, MoneroPaymentRequestPayload_V1} from "../../../paymentrequest/src/index.ts"
+import {appendSharedStyles, appendStyles} from "../../utils/append-shared-styles.ts";
+import {ModalStyles} from "./styles/modal-styles.ts";
+import {AddItemButton} from "./views/add-item-button-view.ts";
 
 type MoneroCart = {moneroCart: {name: string; price: number}[]};
 
@@ -25,6 +28,7 @@ export class MoneroModal extends HTMLElement {
   sellersWallet: string;
   changeIndicatorUrl: string;
   customLabel: string;
+  shippingInfo: Record<string, string|number>
 
   constructor() {
     super();
@@ -37,8 +41,10 @@ export class MoneroModal extends HTMLElement {
     this.changeIndicatorUrl = this.getAttribute("change-indicator-url")?.toString() ?? "";
     this.customLabel = this.getAttribute("custom-label")?.toString() ?? "";
 
-
     this.shadowRoot.innerHTML = ModalView;
+
+    appendSharedStyles(this.shadowRoot);
+    appendStyles(this.shadowRoot, ModalStyles);
 
     this.modal = this.shadowRoot.getElementById('modal') as HTMLDivElement;
     this.addToCartButton = this.shadowRoot.getElementById('addToCartButton') as HTMLButtonElement;
@@ -54,6 +60,15 @@ export class MoneroModal extends HTMLElement {
     this.checkoutButton.addEventListener('click', _ => setElementDisplay(this.shippingForm, "block"));
     this.confirmShippingButton.addEventListener('click', _ => this.showPayment());
     this.backToCartButton.addEventListener('click', _ => setElementDisplay(this.cartItems, "block"));
+
+    const shippingForm = this.shadowRoot.getElementById('shippingInfo');
+
+    // Add event listener to the form
+    shippingForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      this.shippingInfo =
+        Object.fromEntries(new FormData(event.target as any).entries()) as Record<string, string | number>;
+    });
 
     document.addEventListener(Events.showModal, event =>
       this.showModal(event as unknown as CustomEvent));
@@ -71,7 +86,7 @@ export class MoneroModal extends HTMLElement {
     this.cartItems.innerHTML = [
       `<table>`,
       ...this.cart.map((item, i) =>
-        `<tr onclick="${() => this.removeItem(i)}"><td>${item.name}</td><td>${item.price} XMR</td></tr>`),
+        `<tr><td>${item.name}</td><td>${item.price} XMR</td></tr>`),
       `</table>`
     ].join(``);
   }
@@ -85,10 +100,9 @@ export class MoneroModal extends HTMLElement {
 
   showModal(event: CustomEvent) {
     setElementDisplay(this.modal, "block");
-
-    this.addToCartButton.innerText = `Add ${event.detail.itemName} to cart`;
     this.itemName = event.detail.itemName;
     this.itemPrice = event.detail.itemPrice;
+    this.addToCartButton.innerHTML = AddItemButton(event.detail.itemName);
   }
 
   addToCart() {
@@ -102,7 +116,7 @@ export class MoneroModal extends HTMLElement {
         return true;
 
       const qrCodeScript = document.createElement('script');
-      qrCodeScript.src = 'https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.1/dist/qrcode.min.js';
+      qrCodeScript.src = 'https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js';
       qrCodeScript.type = 'text/javascript';
       qrCodeScript.async = true;
       qrCodeScript.id = 'qrCodeLoaded';
@@ -110,7 +124,7 @@ export class MoneroModal extends HTMLElement {
       await new Promise((resolve, reject) => {
         qrCodeScript.onload = resolve;
         qrCodeScript.onerror = reject;
-        document.head.appendChild(qrCodeScript);
+        this.shadowRoot.appendChild(qrCodeScript);
       });
     } catch (error) {
       console.error('Error loading QR code generator:', error);
@@ -131,14 +145,11 @@ export class MoneroModal extends HTMLElement {
       start_date: new Date().toISOString(),
       sellers_wallet: this.sellersWallet,
       payment_id: makeRandomId(),
+      cart: JSON.stringify(this.cart),
+      shipping_info: JSON.stringify(this.shippingInfo)
     }
 
-    const qr = (window as any).QRCode(0, 'M');
-    qr.addData(MoneroPaymentRequestEncoder.fromJson(request));
-    qr.make();
-
-    // Display the QR code
-    this.qrCodeElement.innerHTML = qr.createImgTag();
+    new (window as any).QRCode(this.qrCodeElement, MoneroPaymentRequestEncoder.fromJson(request));
   }
 
   async showPayment() {
@@ -147,7 +158,6 @@ export class MoneroModal extends HTMLElement {
     setElementDisplay(this.paymentForm, "block");
     this.createQRCode();
   }
-
 }
 
 customElements.define('monero-payment-request-modal', MoneroModal);
