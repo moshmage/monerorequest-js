@@ -83,7 +83,6 @@ export class MoneroModal extends HTMLElement {
 
     this.cartItems.addEventListener("click", event => {
       const target = event.target as HTMLElement;
-      console.log(`Target`, target);
       if (target.classList.contains("item"))
         this.removeItem(+target.id);
     });

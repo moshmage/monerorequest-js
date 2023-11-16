@@ -62,6 +62,11 @@ export const ModalStyles = `
   color: var(--text-color);
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
+}
+
+:host .cart .item div {
+ pointer-events: none;
 }
 
 :host .cart .total {
