@@ -18,7 +18,6 @@ class MoneroPaymentButton extends HTMLElement {
     this.itemPrice = parseFloat(this.getAttribute('item-price')) || 1;
 
     this.shadowRoot.innerHTML = ButtonView;
-    appendSharedStyles(this.shadowRoot);
     appendStyles(this.shadowRoot, ButtonStyles);
 
     // Get references to elements

@@ -12,6 +12,7 @@
   },
   "scripts": {
     "bundle": "tsup",
+    "bundle:watch": "tsup -w",
     "pack": "npm pack"
   },
   "keywords": [],

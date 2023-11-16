@@ -1,26 +1,30 @@
 import {ModalView} from "./views/modal-view.ts";
 import {Events} from "../types/events";
 import {setElementDisplay} from "../../utils/set-element-display";
-
 /** Import the needed files from source instead of package because we want this component to be as self-sufficient as possible */
 import {makeRandomId, MoneroPaymentRequestEncoder, MoneroPaymentRequestPayload_V1} from "../../../paymentrequest/src/index.ts"
 import {appendSharedStyles, appendStyles} from "../../utils/append-shared-styles.ts";
 import {ModalStyles} from "./styles/modal-styles.ts";
 import {AddItemButton} from "./views/add-item-button-view.ts";
+import {CartView} from "./views/cart-view.ts";
+import {Errors} from "../../utils/errors.ts";
 
 type MoneroCart = {moneroCart: {name: string; price: number}[]};
 
 export class MoneroModal extends HTMLElement {
 
   modal: HTMLDivElement;
+  modalBackdrop: HTMLDivElement;
   addToCartButton: HTMLButtonElement;
   checkoutButton: HTMLButtonElement;
   confirmShippingButton: HTMLButtonElement;
   backToCartButton: HTMLButtonElement;
+  closeModal: HTMLButtonElement;
   shippingForm: HTMLDivElement;
   cartItems: HTMLDivElement;
   paymentForm: HTMLDivElement;
   qrCodeElement: HTMLDivElement;
+  errorElement: HTMLDivElement;
 
   itemPrice: number;
   itemName: string;
@@ -43,10 +47,11 @@ export class MoneroModal extends HTMLElement {
 
     this.shadowRoot.innerHTML = ModalView;
 
-    appendSharedStyles(this.shadowRoot);
+    appendSharedStyles(document.head as any);
     appendStyles(this.shadowRoot, ModalStyles);
 
     this.modal = this.shadowRoot.getElementById('modal') as HTMLDivElement;
+    this.modalBackdrop = this.shadowRoot.getElementById('modal-backdrop') as HTMLDivElement;
     this.addToCartButton = this.shadowRoot.getElementById('addToCartButton') as HTMLButtonElement;
     this.checkoutButton = this.shadowRoot.getElementById('checkoutButton') as HTMLButtonElement;
     this.shippingForm = this.shadowRoot.getElementById('shippingForm') as HTMLDivElement;
@@ -54,12 +59,15 @@ export class MoneroModal extends HTMLElement {
     this.confirmShippingButton = this.shadowRoot.getElementById('confirmShippingButton') as HTMLButtonElement;
     this.paymentForm = this.shadowRoot.getElementById('paymentForm') as HTMLDivElement;
     this.qrCodeElement = this.shadowRoot.getElementById('qrcode') as HTMLDivElement;
+    this.errorElement = this.shadowRoot.getElementById('error') as HTMLDivElement;
     this.backToCartButton = this.shadowRoot.getElementById('backToCartButton') as HTMLButtonElement;
+    this.closeModal = this.shadowRoot.getElementById('close-modal') as HTMLButtonElement;
 
     this.addToCartButton.addEventListener('click', _ => this.addToCart());
-    this.checkoutButton.addEventListener('click', _ => setElementDisplay(this.shippingForm, "block"));
+    this.checkoutButton.addEventListener('click', _ => this.switchViews(this.shippingForm));
     this.confirmShippingButton.addEventListener('click', _ => this.showPayment());
-    this.backToCartButton.addEventListener('click', _ => setElementDisplay(this.cartItems, "block"));
+    this.backToCartButton.addEventListener('click', _ => this.switchViews(this.cartItems));
+    this.closeModal.addEventListener('click', _ => this.hideModal());
 
     const shippingForm = this.shadowRoot.getElementById('shippingInfo');
 
@@ -72,10 +80,17 @@ export class MoneroModal extends HTMLElement {
 
     document.addEventListener(Events.showModal, event =>
       this.showModal(event as unknown as CustomEvent));
+
+    this.cartItems.addEventListener("click", event => {
+      const target = event.target as HTMLElement;
+      console.log(`Target`, target);
+      if (target.classList.contains("item"))
+        this.removeItem(+target.id);
+    });
   }
 
   get cart() {
-    return (window as unknown as MoneroCart).moneroCart;
+    return (window as unknown as MoneroCart).moneroCart || [];
   }
 
   set cart(v) {
@@ -83,29 +98,41 @@ export class MoneroModal extends HTMLElement {
   }
 
   redrawCartItems() {
-    this.cartItems.innerHTML = [
-      `<table>`,
-      ...this.cart.map((item, i) =>
-        `<tr><td>${item.name}</td><td>${item.price} XMR</td></tr>`),
-      `</table>`
-    ].join(``);
+    this.cartItems.innerHTML = CartView(this.cart);
+  }
+
+  setError(value: string) {
+    this.errorElement.innerText = value;
+  }
+
+  switchViews(ele?: HTMLElement) {
+    [this.shippingForm, this.paymentForm].forEach((e) => setElementDisplay(e, "none"));
+    if (ele)
+      setElementDisplay(ele as HTMLDivElement, "block")
+  }
+
+  hideModal() {
+    [this.modalBackdrop, this.modal].forEach(e => setElementDisplay(e, "none"))
+    this.switchViews();
   }
 
   removeItem(index: number) {
     const copy = Array.from(this.cart);
-    copy.splice(0, index);
+    copy.splice(index, 1);
     this.cart = copy;
     this.redrawCartItems();
   }
 
   showModal(event: CustomEvent) {
     setElementDisplay(this.modal, "block");
+    setElementDisplay(this.modalBackdrop, "block");
     this.itemName = event.detail.itemName;
     this.itemPrice = event.detail.itemPrice;
     this.addToCartButton.innerHTML = AddItemButton(event.detail.itemName);
   }
 
   addToCart() {
+    this.setError("");
     this.cart = [...(this.cart || []), {name: this.itemName, price: this.itemPrice}];
     this.redrawCartItems();
   }
@@ -149,10 +176,17 @@ export class MoneroModal extends HTMLElement {
       shipping_info: JSON.stringify(this.shippingInfo)
     }
 
+    this.qrCodeElement.innerHTML = ``;
     new (window as any).QRCode(this.qrCodeElement, MoneroPaymentRequestEncoder.fromJson(request));
   }
 
   async showPayment() {
+    this.setError("");
+    setElementDisplay(this.shippingForm, "none");
+
+    if (!this.cart.length)
+      return this.setError(Errors.NoCartToSubmit);
+
     await this.loadQRCodeLibrary();
 
     setElementDisplay(this.paymentForm, "block");

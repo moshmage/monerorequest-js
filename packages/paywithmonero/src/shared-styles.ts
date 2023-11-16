@@ -1,5 +1,5 @@
 const sharedStyles = `
-  :host {
+  :root {
   --bg-color: rgba(255,255,255, 1);
   --text-color: rgba(0,121,181, 1);
   --text-soft-color: rgba(0,141,210, 1);
