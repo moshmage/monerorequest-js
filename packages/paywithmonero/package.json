@@ -11,6 +11,9 @@
       "require": "./dist/index.cjs"
     }
   },
+  "files": [
+    "dist/", "README.md"
+  ],
   "scripts": {
     "bundle": "tsup",
     "bundle:watch": "tsup -w",

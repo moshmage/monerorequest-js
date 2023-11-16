@@ -3,7 +3,7 @@ An easy way to create/decode [Monero Payment Requests](https://github.com/lukepr
 
 ## Installation
 ```bash
-$ npm install -S monerorequest-js
+$ npm install -S @monerorequest-js/paymentrequest
 ```
 
 ## Usage
