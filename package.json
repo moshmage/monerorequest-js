@@ -1,33 +1,13 @@
 {
-  "name": "monerorequest-js",
-  "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
-  "type": "module",
-  "exports": {
-    ".": {
-      "import": "./index.js",
-      "require": "./index.cjs"
-    }
-  },
-  "engines": {
-    "node": "^21.1.0"
-  },
+  "name": "@monerorequest-js",
+  "version": "0.1.0",
+  "repository": "https://github.com/moshmage/monerorequest-js",
+  "workspaces": [
+    "packages/**"
+  ],
   "scripts": {
-    "bundle": "tsup",
-    "test": "node --test tests/**/*.mjs",
-    "docs": "typedoc src/index.ts"
-  },
-  "author": "MoshMage <moshmage@gmail.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^20.8.9",
-    "@types/pako": "^2.0.2",
-    "tsup": "^7.2.0",
-    "typedoc": "^0.25.2",
-    "typescript": "^5.2.2"
-  },
-  "dependencies": {
-    "pako": "^2.1.0"
+    "bundle:request": "npm run bundle --workspace packages/paymentrequest",
+    "bundle:paywith": "npm run bundle --workspace packages/paywithmonero",
+    "test:request": "npm run test --workspace packages/paymentrequest"
   }
 }

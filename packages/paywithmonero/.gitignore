@@ -129,6 +129,5 @@ out
 .yarn/install-state.gz
 .pnp.*
 
-**.idea**/
-**docs**/
-**dist**/
+.idea/
+docs

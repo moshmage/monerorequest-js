@@ -1,9 +1,10 @@
 import {SupportedCurrencies} from "../utils/constants/supported-currencies";
-import {Currencies} from "../types/currencies";
+
 import {AddressCheckers} from "../types/address-checkers";
 import {AddressValidCharsRegExp} from "../utils/constants/address-valid-chars";
 import {RandomId} from "../types/random-id";
 import {RandomChoicePool} from "../utils/constants/random-choice-pool";
+import {Currencies} from "../types/currencies";
 
 export class MoneroPaymentRequestValidator {
 
@@ -15,11 +16,11 @@ export class MoneroPaymentRequestValidator {
    * checks SupportedCurrencies constant against the provided value
    *
    * @example
-   *    isCurrencyIsSupported("XMR") // true
-   *    isCurrencyIsSupported("USD") // true
-   *    isCurrencyIsSupported(["XMR", "USD"]) // true
-   *    isCurrencyIsSupported(["EUR"]) // false
-   *    isCurrencyIsSupported("EUR") // false
+   * isCurrencyIsSupported("XMR") // true
+   * isCurrencyIsSupported("USD") // true
+   * isCurrencyIsSupported(["XMR", "USD"]) // true
+   * isCurrencyIsSupported(["EUR"]) // false
+   * isCurrencyIsSupported("EUR") // false
    */
   static isCurrencyIsSupported(currency: Currencies|Currencies[]|string|string[]) {
     if (typeof currency === "string")
@@ -65,9 +66,9 @@ export class MoneroPaymentRequestValidator {
   /**
    *
    * @example
-   *    isValidDate("2023-10-29T10:31:43.459Z") // true
-   *    isValidDate("29/10/2023, 10:32:03") // false
-   *    isValidDate("Sun, 29 Oct 2023 10:32:33 GMT") // false
+   * isValidDate("2023-10-29T10:31:43.459Z") // true
+   * isValidDate("29/10/2023, 10:32:03") // false
+   * isValidDate("Sun, 29 Oct 2023 10:32:33 GMT") // false
    */
   static isValidDate(date: string) {
     if (typeof date !== "string")
@@ -87,10 +88,10 @@ export class MoneroPaymentRequestValidator {
   /**
    *
    * @example
-   *    isValidNumber("1.2") // true
-   *    isValidAmount("1,2") // true
-   *    isValidAmount(1.2) // false
-   *    isValidAmount("1,2,2") // false
+   * isValidNumber("1.2") // true
+   * isValidAmount("1,2") // true
+   * isValidAmount(1.2) // false
+   * isValidAmount("1,2,2") // false
    */
   static isValidAmount(amount: string): boolean {
     if (typeof amount !== "string")

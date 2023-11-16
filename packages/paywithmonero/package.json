@@ -1,0 +1,25 @@
+{
+  "name": "@monerorequest-js/paywithmonero",
+  "version": "0.1.0",
+  "description": "",
+  "module": "dist/index.js",
+  "main": "dist/index.cjs",
+  "repository": "https://github.com/moshmage/monerorequest-js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist/", "README.md"
+  ],
+  "scripts": {
+    "bundle": "tsup",
+    "bundle:watch": "tsup -w",
+    "pack": "npm pack"
+  },
+  "keywords": [],
+  "author": "MoshMage <moshmage@gmail.com>",
+  "license": "MIT"
+}

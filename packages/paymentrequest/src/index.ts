@@ -10,7 +10,6 @@ export * from "./utils/constants/random-choice-pool";
 export * from "./utils/constants/supported-currencies";
 
 export type * from "./types/address-checkers";
-export type * from "./types/currencies";
 export type * from "./types/encoded-payment-request";
 export type * from "./types/payment-request-payload";
 export type * from "./types/random-id";

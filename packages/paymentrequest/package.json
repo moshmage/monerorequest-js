@@ -1,0 +1,42 @@
+{
+  "name": "@monerorequest-js/paymentrequest",
+  "version": "0.1.1",
+  "description": "An easy way to create/decode [Monero Payment Requests](https://github.com/lukeprofits/Monero_Payment_Request_Standard) using JavaScript.",
+  "type": "module",
+  "module": "dist/index.js",
+  "main": "dist/index.cjs",
+  "repository": "https://github.com/moshmage/monerorequest-js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist/", "README.md"
+  ],
+  "engines": {
+    "node": "^21.1.0"
+  },
+  "scripts": {
+    "bundle": "tsup",
+    "test": "node --test tests/**/*.mjs",
+    "docs": "typedoc src/index.ts"
+  },
+  "author": "MoshMage <moshmage@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.8.9",
+    "@types/pako": "^2.0.2",
+    "tsup": "^7.2.0",
+    "typedoc": "^0.25.2",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "pako": "^2.1.0"
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": []
+}

@@ -1,0 +1,1 @@
+export const AddItemButton = (itemName: string) => `<span>Add <strong>${itemName}</strong> to cart</span>`

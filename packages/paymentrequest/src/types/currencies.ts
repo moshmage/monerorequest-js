@@ -1,0 +1,1 @@
+export type Currencies = "XMR" | "USD" | string;
