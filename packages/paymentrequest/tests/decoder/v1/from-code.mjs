@@ -2,7 +2,7 @@ import {test} from "node:test";
 import assert from "node:assert";
 import {MoneroPaymentRequestDecoder} from "../../../dist/index.js";
 
-test("v1_decode() version 1", () => {
+test("fromCode() version 1", () => {
   const code = "monero-request:1:H4sIAAAAAAACAy1P2U7DMBD8FeTnHjlLk7e0tEigItEWKH2xHHvbWPgIPmgTxL/jIJ52d2Z2ducbEam9cqhEcTEpCjRCtCHqDJgrxilx2mBvRKAvl8sErkS2AiZUyylp+VRqBUaPDXx6sG7Y9caAol3Qv+zu/gDrtMSC1DCYbLqbna8tNbx1XKsgYKSzuAWDay4EV2dMOyoAlWk0QsrLOjD6hFvSSVDOojLA/wPmLDgWJzqfR/OIxSxnNBoCWBACjMUXEuqQLKtcesjN12vX7vXpLD08FbZ4dqZnW8gXHtbGflRHHt8u9Hvd9J3Vfa8368Wsf1P7R3a/nFXXVVWvVjnt19u0Cd1DbWXWLOGQ7IaTjhiHGXHhc5RESTqOsnEy28dpmeVlmh7Rzy/y6ViJagEAAA==";
 
   assert.deepStrictEqual(MoneroPaymentRequestDecoder.fromCode(code), {
