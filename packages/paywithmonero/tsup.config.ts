@@ -8,6 +8,6 @@ export default defineConfig({
   outDir: "dist",
   dts: true,
   format: ["esm", "cjs"],
-  minify: false,
+  minify: true,
   shims: true,
 })
