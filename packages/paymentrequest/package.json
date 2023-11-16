@@ -16,6 +16,7 @@
   },
   "scripts": {
     "bundle": "tsup",
+    "pretest": "npm run bundle",
     "test": "node --test tests/**/*.mjs",
     "docs": "typedoc src/index.ts"
   },

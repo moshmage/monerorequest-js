@@ -1,9 +1,10 @@
 import {SupportedCurrencies} from "../utils/constants/supported-currencies";
-import {Currencies} from "../types/currencies";
+
 import {AddressCheckers} from "../types/address-checkers";
 import {AddressValidCharsRegExp} from "../utils/constants/address-valid-chars";
 import {RandomId} from "../types/random-id";
 import {RandomChoicePool} from "../utils/constants/random-choice-pool";
+import {Currencies} from "../types/currencies";
 
 export class MoneroPaymentRequestValidator {
 

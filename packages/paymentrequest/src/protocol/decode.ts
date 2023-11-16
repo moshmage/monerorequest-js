@@ -7,7 +7,7 @@ export class MoneroPaymentRequestDecoder {
   static fromCode(paymentRequest: EncodedPaymentRequest): MoneroPaymentRequestPayload {
     const [, version, data] = paymentRequest.split(`:`);
 
-    if (typeof version !== "number")
+    if (typeof +(version) !== "number" && isNaN(+version))
       throw new Error(Errors.DecoderVersionIsNotANumber);
 
     let _data = null;
@@ -24,6 +24,6 @@ export class MoneroPaymentRequestDecoder {
   }
 
   static v1_decode(data: string): MoneroPaymentRequestPayload_V1 {
-    return JSON.parse(inflate(Buffer.from(data, "base64"), {to: "string"}));
+    return JSON.parse(inflate(Buffer.from(data, "base64"), {to: "string", windowBits: 31}));
   }
 }
