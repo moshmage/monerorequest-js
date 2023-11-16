@@ -30,6 +30,18 @@ export const ModalStyles = `
   top: 1.5em;
 }
 
+:host #paymentForm {
+  position: relative;
+}
+
+:host #copy-qr {
+  width: fit-content;
+  padding: .5rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 :host button {
   border: 1px solid var(--border-color);
   width: 100%;
