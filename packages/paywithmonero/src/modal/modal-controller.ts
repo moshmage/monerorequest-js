@@ -1,8 +1,11 @@
 import {ModalView} from "./views/modal-view.ts";
 import {Events} from "../types/events";
 import {setElementDisplay} from "../../utils/set-element-display";
-/** Import the needed files from source instead of package because we want this component to be as self-sufficient as possible */
-import {makeRandomId, MoneroPaymentRequestEncoder, MoneroPaymentRequestPayload_V1} from "../../../paymentrequest/src/index.ts"
+import {
+  makeRandomId,
+  MoneroPaymentRequestEncoder,
+  MoneroPaymentRequestValidator
+} from "../../../paymentrequest/src/index.ts"
 import {appendSharedStyles, appendStyles} from "../../utils/append-shared-styles.ts";
 import {ModalStyles} from "./styles/modal-styles.ts";
 import {AddItemButton} from "./views/add-item-button-view.ts";
@@ -41,6 +44,8 @@ export class MoneroModal extends HTMLElement {
     this.sellersWallet = this.getAttribute("sellers-wallet")?.toString();
     if (!this.sellersWallet)
       throw new Error("[sellers-wallet] attribute is required");
+    if (!MoneroPaymentRequestValidator.isWalletAddress(this.sellersWallet))
+      throw new Error("[sellers-wallet] is not a xmr address");
 
     this.changeIndicatorUrl = this.getAttribute("change-indicator-url")?.toString() ?? "";
     this.customLabel = this.getAttribute("custom-label")?.toString() ?? "";
@@ -127,6 +132,9 @@ export class MoneroModal extends HTMLElement {
     setElementDisplay(this.modalBackdrop, "block");
     this.itemName = event.detail.itemName;
     this.itemPrice = event.detail.itemPrice;
+    if (!MoneroPaymentRequestValidator.isValidAmount(this.itemPrice.toString()))
+      throw new Error(`${this.itemName} has invalid amount ${this.itemPrice}`);
+
     this.addToCartButton.innerHTML = AddItemButton(event.detail.itemName);
   }
 
@@ -161,7 +169,7 @@ export class MoneroModal extends HTMLElement {
   createQRCode() {
     const total = this.cart.reduce((p,c) => +p+(+c),0)
 
-    const request: MoneroPaymentRequestPayload_V1 = {
+    const request = {
       amount: total.toString(),
       currency: "XMR",
       number_of_payments: 1,
