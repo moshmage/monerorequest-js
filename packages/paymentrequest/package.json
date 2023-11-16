@@ -1,6 +1,6 @@
 {
   "name": "@monerorequest-js/paymentrequest",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "An easy way to create/decode [Monero Payment Requests](https://github.com/lukeprofits/Monero_Payment_Request_Standard) using JavaScript.",
   "type": "module",
   "module": "dist/index.js",
