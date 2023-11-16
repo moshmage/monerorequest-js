@@ -5,6 +5,7 @@
   "type": "module",
   "module": "dist/index.js",
   "main": "dist/index.cjs",
+  "repository": "https://github.com/moshmage/monerorequest-js",
   "exports": {
     ".": {
       "import": "./dist/index.js",
