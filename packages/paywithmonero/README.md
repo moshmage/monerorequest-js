@@ -1,5 +1,5 @@
 # Monero Payment Request WebComponent
-An easier way of using [Monero Payment Requests](https://github.com/lukeprofits/Monero_Payment_Request_Standard) on your website [checkout the demo](https://pay-with-monero-payment-request.netlify.app/)
+An easier way of using [Monero Payment Requests](https://github.com/lukeprofits/Monero_Payment_Request_Standard) on your website; [checkout the demo](https://pay-with-monero-payment-request.netlify.app/)
 ## Usage
 Add the script via cdn:
 ```html
