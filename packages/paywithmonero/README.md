@@ -19,4 +19,4 @@ and provide a shipping address and a QR code generator with the encoded monero p
 ```
 
 ## Protocol and more information
-Get more information the [Protocol](https://github.com/lukeprofits/Monero_Payment_Request_Standard) and on the [JS Port](../paymentrequest/README.md)
+Get more information about the [Protocol](https://github.com/lukeprofits/Monero_Payment_Request_Standard) and on its [JS Port](../paymentrequest/README.md)
