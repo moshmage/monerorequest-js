@@ -5,8 +5,8 @@ on:
     branches:
       - '*'
     paths:
-      - 'src/**'
-      - 'tests/**'
+      - '**/src/**'
+      - '**/tests/**'
 
 jobs:
   test-lib:
@@ -25,7 +25,7 @@ jobs:
         run: npm install
 
       - name: Bundle
-        run: npm run bundle
+        run: npm run bundle:request
 
       - name: Test
-        run: npm run test
+        run: npm run test:request
