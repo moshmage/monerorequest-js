@@ -41,7 +41,7 @@ export class MoneroPaymentRequestValidator {
     if (allowIntegratedAddress)
       allowedFirstChar.push(AddressCheckers.FirstCharIntegrated);
 
-    if (!allowedFirstChar.includes(address[0]))
+    if (!allowedFirstChar.includes(+address[0]))
       return false;
 
     const allowedLengths = [];

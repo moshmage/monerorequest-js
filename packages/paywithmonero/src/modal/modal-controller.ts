@@ -42,6 +42,7 @@ export class MoneroModal extends HTMLElement {
     this.attachShadow({mode: "open"});
 
     this.sellersWallet = this.getAttribute("sellers-wallet")?.toString();
+
     if (!this.sellersWallet)
       throw new Error("[sellers-wallet] attribute is required");
     if (!MoneroPaymentRequestValidator.isWalletAddress(this.sellersWallet))

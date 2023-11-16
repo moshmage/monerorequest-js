@@ -7,6 +7,7 @@ export const ModalStyles = `
   width: 100vw;
   z-index: 1;
   background: var(--shadow-color);
+  opacity: 0.5;
 }
 
 :host #modal {
