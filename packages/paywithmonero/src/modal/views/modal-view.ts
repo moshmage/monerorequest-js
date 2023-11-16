@@ -32,6 +32,7 @@ export const ModalView = `
         </form>
     </div>
     <div id="paymentForm" style="display: none;">
+      <button id="copy-qr">Copy</button> 
       <h2>Payment</h2>
       <div id="qrcode"></div>
       <p>Scan the QR code with your Monero Subscription Wallet to make the payment.</p>

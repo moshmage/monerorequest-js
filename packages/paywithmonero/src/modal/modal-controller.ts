@@ -23,6 +23,7 @@ export class MoneroModal extends HTMLElement {
   confirmShippingButton: HTMLButtonElement;
   backToCartButton: HTMLButtonElement;
   closeModal: HTMLButtonElement;
+  copyQrCode: HTMLButtonElement;
   shippingForm: HTMLDivElement;
   cartItems: HTMLDivElement;
   paymentForm: HTMLDivElement;
@@ -42,6 +43,7 @@ export class MoneroModal extends HTMLElement {
     this.attachShadow({mode: "open"});
 
     this.sellersWallet = this.getAttribute("sellers-wallet")?.toString();
+
     if (!this.sellersWallet)
       throw new Error("[sellers-wallet] attribute is required");
     if (!MoneroPaymentRequestValidator.isWalletAddress(this.sellersWallet))
@@ -66,6 +68,7 @@ export class MoneroModal extends HTMLElement {
     this.qrCodeElement = this.shadowRoot.getElementById('qrcode') as HTMLDivElement;
     this.errorElement = this.shadowRoot.getElementById('error') as HTMLDivElement;
     this.backToCartButton = this.shadowRoot.getElementById('backToCartButton') as HTMLButtonElement;
+    this.copyQrCode = this.shadowRoot.getElementById('copy-qr') as HTMLButtonElement;
     this.closeModal = this.shadowRoot.getElementById('close-modal') as HTMLButtonElement;
 
     this.addToCartButton.addEventListener('click', _ => this.addToCart());
@@ -73,6 +76,7 @@ export class MoneroModal extends HTMLElement {
     this.confirmShippingButton.addEventListener('click', _ => this.showPayment());
     this.backToCartButton.addEventListener('click', _ => this.switchViews(this.cartItems));
     this.closeModal.addEventListener('click', _ => this.hideModal());
+    this.copyQrCode.addEventListener('click', _ => this.copyQrCodeElementTitle());
 
     const shippingForm = this.shadowRoot.getElementById('shippingInfo');
 
@@ -127,6 +131,11 @@ export class MoneroModal extends HTMLElement {
     this.redrawCartItems();
   }
 
+  async copyQrCodeElementTitle() {
+    await navigator.clipboard.writeText(this.qrCodeElement.title);
+    this.copyQrCode.innerHTML = `Copied!`;
+  }
+
   showModal(event: CustomEvent) {
     setElementDisplay(this.modal, "block");
     setElementDisplay(this.modalBackdrop, "block");
@@ -168,7 +177,7 @@ export class MoneroModal extends HTMLElement {
 
   createQRCode() {
     const total = this.cart.reduce((p,c) => +p+(+c),0)
-
+    this.copyQrCode.innerHTML = `Copy`;
     const request = {
       amount: total.toString(),
       currency: "XMR",

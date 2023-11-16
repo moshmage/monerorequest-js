@@ -7,6 +7,7 @@ export const ModalStyles = `
   width: 100vw;
   z-index: 1;
   background: var(--shadow-color);
+  opacity: 0.5;
 }
 
 :host #modal {
@@ -27,6 +28,18 @@ export const ModalStyles = `
   position: absolute;
   right: 1em;
   top: 1.5em;
+}
+
+:host #paymentForm {
+  position: relative;
+}
+
+:host #copy-qr {
+  width: fit-content;
+  padding: .5rem;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 :host button {
