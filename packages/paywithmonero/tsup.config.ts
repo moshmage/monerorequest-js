@@ -9,6 +9,5 @@ export default defineConfig({
   dts: true,
   format: ["esm", "cjs"],
   minify: false,
-  shims: true,
-  watch: true
+  shims: true
 })
