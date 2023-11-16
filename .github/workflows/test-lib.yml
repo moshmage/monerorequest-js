@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - '*'
-    paths:
-      - '**/src/**'
-      - '**/tests/**'
 
 jobs:
   test-lib:
