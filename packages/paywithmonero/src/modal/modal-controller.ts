@@ -36,7 +36,8 @@ export class MoneroModal extends HTMLElement {
   sellersWallet: string;
   changeIndicatorUrl: string;
   customLabel: string;
-  shippingInfo: Record<string, string|number>
+  shippingInfo: Record<string, string|number>;
+  hideShippingInfo: boolean;
 
   constructor() {
     super();
@@ -51,6 +52,8 @@ export class MoneroModal extends HTMLElement {
 
     this.changeIndicatorUrl = this.getAttribute("change-indicator-url")?.toString() ?? "";
     this.customLabel = this.getAttribute("custom-label")?.toString() ?? "";
+
+    this.hideShippingInfo = this.getAttribute("hide-shipping") !== null;
 
     this.shadowRoot.innerHTML = ModalView;
 
@@ -72,7 +75,8 @@ export class MoneroModal extends HTMLElement {
     this.closeModal = this.shadowRoot.getElementById('close-modal') as HTMLButtonElement;
 
     this.addToCartButton.addEventListener('click', _ => this.addToCart());
-    this.checkoutButton.addEventListener('click', _ => this.switchViews(this.shippingForm));
+    this.checkoutButton.addEventListener('click', _ =>
+      !this.hideShippingInfo ? this.switchViews(this.shippingForm) : this.showPayment());
     this.confirmShippingButton.addEventListener('click', _ => this.showPayment());
     this.backToCartButton.addEventListener('click', _ => this.switchViews(this.cartItems));
     this.closeModal.addEventListener('click', _ => this.hideModal());
@@ -80,12 +84,16 @@ export class MoneroModal extends HTMLElement {
 
     const shippingForm = this.shadowRoot.getElementById('shippingInfo');
 
-    // Add event listener to the form
-    shippingForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-      this.shippingInfo =
-        Object.fromEntries(new FormData(event.target as any).entries()) as Record<string, string | number>;
-    });
+    if (this.hideShippingInfo) {
+      setElementDisplay(this.shippingForm, "none");
+      this.checkoutButton.innerText = "Got to payment";
+    } else {
+      shippingForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        this.shippingInfo =
+          Object.fromEntries(new FormData(event.target as any).entries()) as Record<string, string | number>;
+      });
+    }
 
     document.addEventListener(Events.showModal, event =>
       this.showModal(event as unknown as CustomEvent));
@@ -114,7 +122,7 @@ export class MoneroModal extends HTMLElement {
   }
 
   switchViews(ele?: HTMLElement) {
-    [this.shippingForm, this.paymentForm].forEach((e) => setElementDisplay(e, "none"));
+    [this.shippingForm, this.paymentForm, this.cartItems].forEach((e) => setElementDisplay(e, "none"));
     if (ele)
       setElementDisplay(ele as HTMLDivElement, "block")
   }
