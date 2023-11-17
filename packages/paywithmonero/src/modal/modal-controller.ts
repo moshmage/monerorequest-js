@@ -186,6 +186,7 @@ export class MoneroModal extends HTMLElement {
   createQRCode() {
     const total = this.cart.reduce((p,c) => +p+(+c),0)
     this.copyQrCode.innerHTML = `Copy`;
+
     const request = {
       amount: total.toString(),
       currency: "XMR",
@@ -197,7 +198,7 @@ export class MoneroModal extends HTMLElement {
       sellers_wallet: this.sellersWallet,
       payment_id: makeRandomId(),
       cart: JSON.stringify(this.cart),
-      shipping_info: JSON.stringify(this.shippingInfo)
+      ... !this.hideShippingInfo ? {shipping_info: JSON.stringify(this.shippingInfo)} : {}
     }
 
     this.qrCodeElement.innerHTML = ``;
