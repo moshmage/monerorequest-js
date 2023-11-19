@@ -33,24 +33,26 @@ export class MoneroModal extends HTMLElement {
   itemPrice: number;
   itemName: string;
 
-  sellersWallet: string;
-  changeIndicatorUrl: string;
-  customLabel: string;
-  shippingInfo: Record<string, string|number>
+  shippingInfo: Record<string, string|number>;
 
-  constructor() {
+  constructor(readonly sellersWallet: string,
+              readonly changeIndicatorUrl?: string,
+              readonly customLabel?: string,
+              readonly hideShippingInfo?: null|any) {
     super();
     this.attachShadow({mode: "open"});
 
-    this.sellersWallet = this.getAttribute("sellers-wallet")?.toString();
+    this.sellersWallet = sellersWallet || this.getAttribute("sellers-wallet")?.toString();
 
     if (!this.sellersWallet)
       throw new Error("[sellers-wallet] attribute is required");
     if (!MoneroPaymentRequestValidator.isWalletAddress(this.sellersWallet))
       throw new Error("[sellers-wallet] is not a xmr address");
 
-    this.changeIndicatorUrl = this.getAttribute("change-indicator-url")?.toString() ?? "";
-    this.customLabel = this.getAttribute("custom-label")?.toString() ?? "";
+    this.changeIndicatorUrl = changeIndicatorUrl || this.getAttribute("change-indicator-url")?.toString() || "";
+    this.customLabel = customLabel || this.getAttribute("custom-label")?.toString() || "";
+
+    this.hideShippingInfo = hideShippingInfo || this.getAttribute("hide-shipping") !== null;
 
     this.shadowRoot.innerHTML = ModalView;
 
@@ -72,7 +74,8 @@ export class MoneroModal extends HTMLElement {
     this.closeModal = this.shadowRoot.getElementById('close-modal') as HTMLButtonElement;
 
     this.addToCartButton.addEventListener('click', _ => this.addToCart());
-    this.checkoutButton.addEventListener('click', _ => this.switchViews(this.shippingForm));
+    this.checkoutButton.addEventListener('click', _ =>
+      !this.hideShippingInfo ? this.switchViews(this.shippingForm) : this.showPayment());
     this.confirmShippingButton.addEventListener('click', _ => this.showPayment());
     this.backToCartButton.addEventListener('click', _ => this.switchViews(this.cartItems));
     this.closeModal.addEventListener('click', _ => this.hideModal());
@@ -80,12 +83,16 @@ export class MoneroModal extends HTMLElement {
 
     const shippingForm = this.shadowRoot.getElementById('shippingInfo');
 
-    // Add event listener to the form
-    shippingForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-      this.shippingInfo =
-        Object.fromEntries(new FormData(event.target as any).entries()) as Record<string, string | number>;
-    });
+    if (this.hideShippingInfo) {
+      setElementDisplay(this.shippingForm, "none");
+      this.checkoutButton.innerText = "Got to payment";
+    } else {
+      shippingForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        this.shippingInfo =
+          Object.fromEntries(new FormData(event.target as any).entries()) as Record<string, string | number>;
+      });
+    }
 
     document.addEventListener(Events.showModal, event =>
       this.showModal(event as unknown as CustomEvent));
@@ -114,7 +121,7 @@ export class MoneroModal extends HTMLElement {
   }
 
   switchViews(ele?: HTMLElement) {
-    [this.shippingForm, this.paymentForm].forEach((e) => setElementDisplay(e, "none"));
+    [this.shippingForm, this.paymentForm, this.cartItems].forEach((e) => setElementDisplay(e, "none"));
     if (ele)
       setElementDisplay(ele as HTMLDivElement, "block")
   }
@@ -178,6 +185,7 @@ export class MoneroModal extends HTMLElement {
   createQRCode() {
     const total = this.cart.reduce((p,c) => +p+(+c),0)
     this.copyQrCode.innerHTML = `Copy`;
+
     const request = {
       amount: total.toString(),
       currency: "XMR",
@@ -189,7 +197,7 @@ export class MoneroModal extends HTMLElement {
       sellers_wallet: this.sellersWallet,
       payment_id: makeRandomId(),
       cart: JSON.stringify(this.cart),
-      shipping_info: JSON.stringify(this.shippingInfo)
+      ... !this.hideShippingInfo ? {shipping_info: JSON.stringify(this.shippingInfo)} : {}
     }
 
     this.qrCodeElement.innerHTML = ``;

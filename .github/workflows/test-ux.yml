@@ -1,4 +1,4 @@
-name: Test lib
+name: Test Ux
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - '*'
 
 jobs:
-  test-lib:
+  test-ux:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Bundle
-        run: npm run bundle:request --no-warnings
+        run: npm run bundle:paywith  --no-warnings
 
       - name: Test
-        run: npm run test:request --no-warnings
+        run: npm run test:paywith  --no-warnings

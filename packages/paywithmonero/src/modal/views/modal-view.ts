@@ -10,24 +10,24 @@ export const ModalView = `
     <div id="shippingForm" style="display: none;">
       <h2>Shipping Form</h2>
         <form id="shippingInfo">
-          <label for="recipientName">Recipient's Name:</label>
+          <label for="recipientName">Recipient's Name</label>
           <input type="text" id="recipientName" name="recipientName">
       
-          <label for="address">Address:</label>
+          <label for="address">Address</label>
           <input type="text" id="address" name="address">
       
-          <label for="city">City:</label>
+          <label for="city">City</label>
           <input type="text" id="city" name="city">
       
-          <label for="state">State:</label>
+          <label for="state">State/Province</label>
           <input type="text" id="state" name="state">
       
-          <label for="zipCode">Zip Code:</label>
+          <label for="zipCode">Zip/Postal Code</label>
           <input type="text" id="zipCode" name="zipCode">
       
-          <label for="email">Email:</label>
+          <label for="email">Email</label>
           <input type="email" id="email" name="email">
-      
+          <p>* All fields are optional.</p>
           <button id="confirmShippingButton" type="submit">Submit</button>
         </form>
     </div>

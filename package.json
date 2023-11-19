@@ -8,6 +8,7 @@
   "scripts": {
     "bundle:request": "npm run bundle --workspace packages/paymentrequest",
     "bundle:paywith": "npm run bundle --workspace packages/paywithmonero",
-    "test:request": "npm run test --workspace packages/paymentrequest"
+    "test:request": "npm run test --workspace packages/paymentrequest",
+    "test:paywith": "npm run test --workspace packages/paywithmonero"
   }
 }

@@ -1,2 +1,2 @@
 export * from "./button/button-controller";
-export * from "./modal/modal-controller";
+export * from "./modal/modal-controller.ts";
