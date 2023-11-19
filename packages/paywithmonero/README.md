@@ -20,3 +20,10 @@ and provide a shipping address and a QR code generator with the encoded monero p
 
 ## Protocol and more information
 Get more information about the [Protocol](https://github.com/lukeprofits/Monero_Payment_Request_Standard) and on its [JS Port](../paymentrequest/README.md)
+
+## Localhost development
+ 
+```
+$ npm run bundle:watch # watches for changes and outputs on local-server/dist
+$ npm run local-server # use http-serve on local-server folder
+```

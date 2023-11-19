@@ -37,22 +37,16 @@ describe('MoneroModal', () => {
     }));
     el.addToCartButton.dispatchEvent(new Event('click'));
 
-    // Store the cart length before the removal
     const before = el.cart.length;
 
-    // Get the first item in the cart (you might need to adjust this based on your actual structure)
     const cartItem = el.cartItems.querySelector('.cart .item');
 
-    // Check if the cartItem is not null (i.e., it exists)
     expect(cartItem).toBeTruthy();
 
-    // Simulate a click on the cartItem
     cartItem?.dispatchEvent(new Event('click', {bubbles: true}));
 
-    // Assuming removeItem updates el.cart
     const after = el.cart.length;
 
-    // Check that the cart has one less item after the click
     expect(after).toBeLessThan(before);
   });
 

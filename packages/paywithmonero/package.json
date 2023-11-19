@@ -17,7 +17,8 @@
   ],
   "scripts": {
     "bundle": "tsup",
-    "bundle:watch": "tsup -w",
+    "bundle:watch": "tsup --watch src --out-dir local-server/dist",
+    "local-server": "http-server local-server -c-1",
     "pack": "npm pack",
     "test": "jest"
   },
@@ -28,10 +29,11 @@
     "@testing-library/dom": "^9.3.3",
     "@types/jest": "^29.5.8",
     "@types/node": "^20.9.1",
+    "http-server": "^14.1.1",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "ts-jest": "^29.1.1",
-    "sinon": "^17.0.1"
+    "sinon": "^17.0.1",
+    "ts-jest": "^29.1.1"
   },
   "dependencies": {
     "remove": "^0.1.5"
