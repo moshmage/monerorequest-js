@@ -4,7 +4,7 @@ import {Events} from "../types/events";
 import {makeEvent} from "../../utils/make-event";
 import {ButtonStyles} from "./styles/button-styles.ts";
 
-class MoneroPaymentButton extends HTMLElement {
+export class MoneroPaymentButton extends HTMLElement {
   payButton: HTMLElement;
   itemName: string;
   itemPrice: number;

@@ -33,27 +33,26 @@ export class MoneroModal extends HTMLElement {
   itemPrice: number;
   itemName: string;
 
-  sellersWallet: string;
-  changeIndicatorUrl: string;
-  customLabel: string;
   shippingInfo: Record<string, string|number>;
-  hideShippingInfo: boolean;
 
-  constructor() {
+  constructor(readonly sellersWallet: string,
+              readonly changeIndicatorUrl?: string,
+              readonly customLabel?: string,
+              readonly hideShippingInfo?: null|any) {
     super();
     this.attachShadow({mode: "open"});
 
-    this.sellersWallet = this.getAttribute("sellers-wallet")?.toString();
+    this.sellersWallet = sellersWallet || this.getAttribute("sellers-wallet")?.toString();
 
     if (!this.sellersWallet)
       throw new Error("[sellers-wallet] attribute is required");
     if (!MoneroPaymentRequestValidator.isWalletAddress(this.sellersWallet))
       throw new Error("[sellers-wallet] is not a xmr address");
 
-    this.changeIndicatorUrl = this.getAttribute("change-indicator-url")?.toString() ?? "";
-    this.customLabel = this.getAttribute("custom-label")?.toString() ?? "";
+    this.changeIndicatorUrl = changeIndicatorUrl || this.getAttribute("change-indicator-url")?.toString() || "";
+    this.customLabel = customLabel || this.getAttribute("custom-label")?.toString() || "";
 
-    this.hideShippingInfo = this.getAttribute("hide-shipping") !== null;
+    this.hideShippingInfo = hideShippingInfo || this.getAttribute("hide-shipping") !== null;
 
     this.shadowRoot.innerHTML = ModalView;
 
