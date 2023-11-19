@@ -2,5 +2,6 @@
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "target": "ES6",
+    "esModuleInterop": true
   }
 }

@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Bundle
-        run: npm run bundle:request
+        run: npm run bundle:request --no-warnings
 
       - name: Test
-        run: npm run test:request
+        run: npm run test:request --no-warnings

@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Bundle
-        run: npm run bundle:paywith
+        run: npm run bundle:paywith  --no-warnings
 
       - name: Test
-        run: npm run test:paywith
+        run: npm run test:paywith  --no-warnings
