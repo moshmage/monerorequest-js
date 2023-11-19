@@ -30,4 +30,4 @@ $ npm run bundle:watch
 ```
 $ npm run local-server
 ```
-> use http-serve on local-server folder
+> use http-server on local-server folder
