@@ -17,6 +17,17 @@ and provide a shipping address and a QR code generator with the encoded monero p
                               change-indicator-url="optional" 
                               custom-label="optional"></monero-payment-request-modal>
 ```
+### Changing default color scheme
+Simply override the css variables with a new value:
+```html
+<style>
+    :root {
+        --bg-color: rgba(0, 0, 0, 1); <!-- will change background color to black -->
+        --text-color: rgba(255, 255, 255, 1); <!-- will change text color to white -->
+    }
+</style>
+```
+The whole variable list can be seen at [shared-styles](./src/shared-styles.ts) file.
 
 ## Protocol and more information
 Get more information about the [Protocol](https://github.com/lukeprofits/Monero_Payment_Request_Standard) and on its [JS Port](../paymentrequest/README.md)
